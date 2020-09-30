@@ -1,0 +1,7 @@
+name: simple_vcard_parser
+version: 0.1.0
+description: A simple vCard parser (Versions 2.1, 3.0, 4.0)
+repository: https://github.com/AmirElkess/simple_vcard_parser
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
