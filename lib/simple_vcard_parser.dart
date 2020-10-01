@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 class VCard {
-
   String _vCardString;
   List<String> lines;
   String version;
 
   VCard(vCardString) {
     this._vCardString = vCardString;
-    lines = new LineSplitter().convert(this._vCardString);
+    lines = LineSplitter().convert(this._vCardString);
     for (var i = lines.length - 1; i >= 0; i--) {
       if (lines[i].startsWith("BEGIN:VCARD") ||
           lines[i].startsWith("END:VCARD") ||
