@@ -49,7 +49,10 @@ class VCard {
   }
 
   String get email {
-    return getWordOfPrefix("EMAIL:");
+    String email = getWordOfPrefix("EMAIL");
+    RegExp emailm = RegExp(r'(?<=:).+');
+    email = emailm.firstMatch(email).group(0);
+    return email;
   }
 
   List<String> get name {

@@ -1,4 +1,5 @@
-import 'package:simple_vcard_parser/simple_vcard_parser.dart';
+//import 'package:simple_vcard_parser/simple_vcard_parser.dart';
+import '../lib/simple_vcard_parser.dart';
 
 String vCardExample40 = '''BEGIN:VCARD
 VERSION:4.0
@@ -9,7 +10,7 @@ TITLE:Shrimp Man
 PHOTO;MEDIATYPE=image/gif:http://www.example.com/dir_photos/my_photo.gif
 TEL;TYPE=work,voice;VALUE=uri:tel:+1-111-555-1212
 TEL;TYPE=home,voice;VALUE=uri:tel:+1-404-555-1212
-EMAIL:forrestgump@example.com
+EMAIL;HOME;INTERNET:forrestgump@example.com
 END:VCARD''';
 
 void main() {
