@@ -50,9 +50,12 @@ class VCard {
 
   String get email {
     String email = getWordOfPrefix("EMAIL");
-    RegExp emailm = RegExp(r'(?<=:).+');
-    email = emailm.firstMatch(email).group(0);
-    return email;
+    if (email.isNotEmpty) {
+      RegExp emailm = RegExp(r'(?<=:).+');
+      email = emailm.firstMatch(email).group(0);
+      return email;
+    }
+    return "";
   }
 
   List<String> get name {
@@ -75,27 +78,39 @@ class VCard {
     return getWordOfPrefix("TEL:");
   }
 
-  List<List> get typedTelephone {
+  List<dynamic> get typedTelephone {
+    List<String> telephoneTypes = [
+      'CELL',
+      'PAGER',
+      'HOME',
+      'VOICE',
+      'WORK',
+      'FAX'
+    ];
     List<String> telephones;
-    String type;
-    List<List> result = List<List>();
+    List<String> types = List<String>();
+    List<dynamic> result = List<dynamic>();
+    String _tel = '';
 
-    if (version == "3.0" || version == "4.0") {
-      telephones = getWordsOfPrefix("TEL;");
-      for (String tel in telephones) {
-        type = tel.substring(tel.indexOf("TYPE="));
-        type = type.substring(5, type.indexOf(","));
-        tel = tel.substring(tel.lastIndexOf(":") + 1);
-        result.add([tel, type]);
+    telephones = getWordsOfPrefix("TEL");
+
+    for (String tel in telephones) {
+      if (version == "2.1" || version == "3.0") {
+        _tel = RegExp(r'(?<=:).+$').firstMatch(tel).group(0);
+      } else if (version == "4.0") {
+        _tel = RegExp(r'(?<=tel:).+$').firstMatch(tel).group(0);
       }
-    } else if (version == "2.1") {
-      telephones = getWordsOfPrefix("TEL;");
-      for (String tel in telephones) {
-        type = tel.substring(0, tel.indexOf(";"));
-        tel = tel.substring(tel.lastIndexOf(":") + 1);
-        result.add([tel, type]);
+      for (String type in telephoneTypes) {
+        if (tel.toUpperCase().contains(type)) {
+          types.add(type);
+        }
       }
+
+      result.add([_tel, types]);
+      _tel = '';
+      types = [];
     }
+
     return result;
   }
 }
