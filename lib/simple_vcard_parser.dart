@@ -25,7 +25,7 @@ class VCard {
   String getWordOfPrefix(String prefix) {
     //returns a word of a particular prefix from the tokens minus the prefix
     for (var i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith(prefix)) {
+      if (lines[i].toUpperCase().startsWith(prefix)) {
         String word = lines[i];
         word = word.substring(prefix.length, word.length);
         return word;
@@ -39,7 +39,7 @@ class VCard {
     List<String> result = List<String>();
 
     for (var i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith(prefix)) {
+      if (lines[i].toUpperCase().startsWith(prefix)) {
         String word = lines[i];
         word = word.substring(prefix.length, word.length);
         result.add(word);
@@ -48,32 +48,46 @@ class VCard {
     return result;
   }
 
-  String get email {
-    String email = getWordOfPrefix("EMAIL");
-    if (email.isNotEmpty) {
-      RegExp emailm = RegExp(r'(?<=:).+');
-      email = emailm.firstMatch(email).group(0);
-      return email;
+  String _strip (String baseString) {
+    try {
+      return RegExp(r'(?<=:).+').firstMatch(baseString).group(0);
+
+    } catch (e){
+      return '';
     }
-    return "";
+  }
+
+  String get email {
+    String _email = getWordOfPrefix("EMAIL");
+    return _strip(_email);
   }
 
   List<String> get name {
-    return getWordOfPrefix("N:").split(';');
+    String _name = getWordOfPrefix("N");
+    return _strip(_name).split(';');
   }
 
   String get formattedName {
-    return getWordOfPrefix("FN:");
+    String _fName = getWordOfPrefix("FN");
+    return _strip(_fName);
   }
 
   String get organisation {
-    return getWordOfPrefix("ORG:");
+    String _org = getWordOfPrefix("ORG");
+    return _strip(_org);
   }
 
   String get title {
-    return getWordOfPrefix("TITLE:");
+    String _title = getWordOfPrefix("TITLE");
+    return _strip(_title);
   }
 
+  String get gender {
+    String _gender = getWordOfPrefix('GENDER');
+    return _strip(_gender);
+  }
+
+  @Deprecated("typedTelephone should be used instead")
   String get telephone {
     return getWordOfPrefix("TEL:");
   }
