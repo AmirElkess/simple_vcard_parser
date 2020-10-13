@@ -48,11 +48,10 @@ class VCard {
     return result;
   }
 
-  String _strip (String baseString) {
+  String _strip(String baseString) {
     try {
       return RegExp(r'(?<=:).+').firstMatch(baseString).group(0);
-
-    } catch (e){
+    } catch (e) {
       return '';
     }
   }
@@ -109,11 +108,16 @@ class VCard {
     telephones = getWordsOfPrefix("TEL");
 
     for (String tel in telephones) {
-      if (version == "2.1" || version == "3.0") {
-        _tel = RegExp(r'(?<=:).+$').firstMatch(tel).group(0);
-      } else if (version == "4.0") {
-        _tel = RegExp(r'(?<=tel:).+$').firstMatch(tel).group(0);
+      try {
+        if (version == "2.1" || version == "3.0") {
+          _tel = RegExp(r'(?<=:).+$').firstMatch(tel).group(0);
+        } else if (version == "4.0") {
+          _tel = RegExp(r'(?<=tel:).+$').firstMatch(tel).group(0);
+        }
+      } catch (e) {
+        _tel = '';
       }
+
       for (String type in telephoneTypes) {
         if (tel.toUpperCase().contains(type)) {
           types.add(type);

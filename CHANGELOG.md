@@ -17,3 +17,6 @@
 * Properties such as N and FN (Name and FormattedName) will not crash if it contains any parameters like CHARSET or TYPE.
 * telephone getter is deprecated, typedTelephone should be used instead.
 * fixed a bug where lowercase tags are not detected. 
+
+## [0.1.5] - 13-10-2020
+* Minor bug fix.

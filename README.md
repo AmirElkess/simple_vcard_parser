@@ -71,6 +71,7 @@ void main() {
 * email.
 * organisation.
 * title.
+* gender.
 * typedTelephone: returns an array of telephone numbers along with their type ([[+1-111..., [VOICE, WORK]], [1-404..., [HOME, VOICE]]])
 * telephone: returns telephone value if type is not specified in the vCard. (Deprecated: refer to typedTelephone)
 

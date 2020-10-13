@@ -20,16 +20,18 @@ x-qq:21588891
 END:VCARD''';
 
 void main() {
-    VCard vc = VCard(vCardExample40);
-    print(vc.version); // 4.0
-    print(vc.formattedName); // Forrest Gump
-    print(vc.organisation); // Bubba Gump Shrimp Co.
-    print(vc.title); //Shrimp Man
-    print(vc.email); //forrestgump@example.com
-    print(vc.typedTelephone); // [[+1-111-555-1212, [VOICE, WORK]], [+1-404-555-1212, [HOME, VOICE]]]
-    print(vc.name); //[Gump, Forrest, , Mr.,]
-    print(vc.gender); //M
+  VCard vc = VCard(vCardExample40);
+  print(vc.version); // 4.0
+  print(vc.formattedName); // Forrest Gump
+  print(vc.organisation); // Bubba Gump Shrimp Co.
+  print(vc.title); //Shrimp Man
+  print(vc.email); //forrestgump@example.com
+  print(vc
+      .typedTelephone); // [[+1-111-555-1212, [VOICE, WORK]], [+1-404-555-1212, [HOME, VOICE]]]
+  print(vc.name); //[Gump, Forrest, , Mr.,]
+  print(vc.gender); //M
 
-    //getWordOfPrefix() can be used to retrieve values from currently unsupported properties
-    print(vc.getWordOfPrefix("PHOTO;MEDIATYPE=image/gif:")); //http://www.example.com/dir_photos/my_photo.gif
+  //getWordOfPrefix() can be used to retrieve values from currently unsupported properties
+  print(vc.getWordOfPrefix(
+      "PHOTO;MEDIATYPE=image/gif:")); //http://www.example.com/dir_photos/my_photo.gif
 }
