@@ -20,3 +20,10 @@
 
 ## [0.1.5] - 13-10-2020
 * Minor bug fix.
+
+## [0.1.6] - 13-10-2020
+* Bug fixes.
+* Added typedAdress and typedEmail getters.
+* Added birthday, note and nickname getters.
+* Added print_lines method.
+* Deprecated email getter.

@@ -10,7 +10,7 @@ dependency:
 ```yaml
 dependencies:
   ...
-  simple_vcard_parser: ^0.1.4
+  simple_vcard_parser: ^0.1.6
 ```
 
 In your library add the following import:
@@ -35,25 +35,30 @@ TEL;TYPE=work,voice;VALUE=uri:tel:+1-111-555-1212
 TEL;TYPE=home,voice;VALUE=uri:tel:+1-404-555-1212
 ADR;TYPE=WORK;PREF=1;LABEL="100 Waters Edge\nBaytown\, LA 30314\nUnited States of America":;;100 Waters Edge;Baytown;LA;30314;United States of America
 ADR;TYPE=HOME;LABEL="42 Plantation St.\nBaytown\, LA 30314\nUnited States of America":;;42 Plantation St.;Baytown;LA;30314;United States of America
-EMAIL:forrestgump@example.com
+EMAIL;TYPE=INTERNET:forrestgump@example.com
 GENDER:M
 REV:20080424T195243Z
 x-qq:21588891
 END:VCARD''';
 
 void main() {
-    VCard vc = VCard(vCardExample40);
-    print(vc.version); // 4.0
-    print(vc.formattedName); // Forrest Gump
-    print(vc.organisation); // Bubba Gump Shrimp Co.
-    print(vc.title); //Shrimp Man
-    print(vc.email); //forrestgump@example.com
-    print(vc.typedTelephone); // [[+1-111-555-1212, [VOICE, WORK]], [+1-404-555-1212, [HOME, VOICE]]]
-    print(vc.name); //[Gump, Forrest, , Mr.,]
-    print(vc.gender); //M
+  VCard vc = VCard(vCardExample40);
+  print(vc.version); // 4.0
+  print(vc.formattedName); // Forrest Gump
+  print(vc.organisation); // Bubba Gump Shrimp Co.
+  print(vc.title); //Shrimp Man
+  print(vc.typedEmail); // [[forrestgump@example.com, [INTERNET]]]
+  print(vc
+      .typedTelephone); // [[+1-111-555-1212, [VOICE, WORK]], [+1-404-555-1212, [HOME, VOICE]]]
+  print(vc.name); //[Gump, Forrest, , Mr.,]
+  print(vc.gender); //M
+  print(vc
+      .typedAddress); // [[[100 Waters Edge, Baytown, LA 30314, United States of America], [WORK]], [[42 Plantation St., Baytown, LA 30314, United States of America], [HOME]]]
+  vc.print_lines(); // Will print all vcard lines without start and end tags
 
-    //getWordOfPrefix() can be used to retrieve values from currently unsupported properties
-    print(vc.getWordOfPrefix("PHOTO;MEDIATYPE=image/gif:")); //http://www.example.com/dir_photos/my_photo.gif
+  // getWordOfPrefix() can be used to retrieve values from currently unsupported properties
+  print(vc.getWordOfPrefix(
+      "PHOTO;MEDIATYPE=image/gif:")); //http://www.example.com/dir_photos/my_photo.gif
 }
 
 ```
@@ -62,21 +67,23 @@ void main() {
 ### Methods
 * getWordOfPrefix (String prefix): returns the value of the provided property prefix without the prefix (first occurence only).
 * getWordsOfPrefix (String prefix): similar to getWordOfPrefix, but returns all possible occurences.
+* print_lines (): prints formatted vCard lines without start and end tags.
 
 ### Properties
 * fullString: A vCard representation without START and END tags or any empty lines.
 * version: the vCard version.
 * name: returns an array containing the components of the name.
-* formattedName.
-* email.
-* organisation.
-* title.
-* gender.
+* formattedName
+* email (Deprecated: refer to typedEmail)
+* typedEmail: returns emails along with their types
+* organisation
+* title
+* gender
 * typedTelephone: returns an array of telephone numbers along with their type ([[+1-111..., [VOICE, WORK]], [1-404..., [HOME, VOICE]]])
 * telephone: returns telephone value if type is not specified in the vCard. (Deprecated: refer to typedTelephone)
 
 ## To be supported next:
-* Adresses
+* Adresses (Done)
 * Photos
 * Meta-Data
 
