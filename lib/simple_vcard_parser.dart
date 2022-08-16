@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class VCard {
-  String _vCardString;
-  List<String> lines;
-  String version;
+  late String _vCardString;
+  late List<String> lines;
+  late String version;
 
   VCard(vCardString) {
     this._vCardString = vCardString;
@@ -56,7 +56,7 @@ class VCard {
 
   List<String> getWordsOfPrefix(String prefix) {
     //returns a list of words of a particular prefix from the tokens minus the prefix [case insensitive]
-    List<String> result = List<String>();
+    List<String> result = [];
 
     for (var i = 0; i < lines.length; i++) {
       if (lines[i].toUpperCase().startsWith(prefix.toUpperCase())) {
@@ -70,7 +70,7 @@ class VCard {
 
   String _strip(String baseString) {
     try {
-      return RegExp(r'(?<=:).+').firstMatch(baseString).group(0);
+      return RegExp(r'(?<=:).+').firstMatch(baseString)?.group(0) ?? '';
     } catch (e) {
       return '';
     }
@@ -145,8 +145,8 @@ class VCard {
       'OTHER'
     ];
     List<String> telephones;
-    List<String> types = List<String>();
-    List<dynamic> result = List<dynamic>();
+    List<String> types = [];
+    List<dynamic> result = [];
     String _tel = '';
 
     telephones = getWordsOfPrefix("TEL");
@@ -154,9 +154,9 @@ class VCard {
     for (String tel in telephones) {
       try {
         if (version == "2.1" || version == "3.0") {
-          _tel = RegExp(r'(?<=:).+$').firstMatch(tel).group(0);
+          _tel = RegExp(r'(?<=:).+$').firstMatch(tel)?.group(0) ?? '';
         } else if (version == "4.0") {
-          _tel = RegExp(r'(?<=tel:).+$').firstMatch(tel).group(0);
+          _tel = RegExp(r'(?<=tel:).+$').firstMatch(tel)?.group(0) ?? '';
         }
       } catch (e) {
         _tel = '';
@@ -199,15 +199,15 @@ class VCard {
       'OTHER',
     ];
     List<String> matches;
-    List<String> types = List<String>();
-    List<dynamic> result = List<dynamic>();
+    List<String> types = [];
+    List<dynamic> result = [];
     String _res = '';
 
     matches = getWordsOfPrefix(property);
 
     for (String match in matches) {
       try {
-        _res = RegExp(r'(?<=:).+$').firstMatch(match).group(0);
+        _res = RegExp(r'(?<=:).+$').firstMatch(match)?.group(0) ?? '';
       } catch (e) {
         _res = '';
       }
@@ -247,8 +247,8 @@ class VCard {
       'DOM',
     ];
     List<String> addresses;
-    List<String> types = List<String>();
-    List<dynamic> result = List<dynamic>();
+    List<String> types = [];
+    List<dynamic> result = [];
     String _adr = '';
 
     addresses = getWordsOfPrefix("ADR");
@@ -256,9 +256,9 @@ class VCard {
     for (String adr in addresses) {
       try {
         if (version == "2.1" || version == "3.0") {
-          _adr = RegExp(r'(?<=(;|:);).+$').firstMatch(adr).group(0);
+          _adr = RegExp(r'(?<=(;|:);).+$').firstMatch(adr)?.group(0) ?? '';
         } else if (version == "4.0") {
-          _adr = RegExp(r'(?<=LABEL=").+(?=":;)').firstMatch(adr).group(0);
+          _adr = RegExp(r'(?<=LABEL=").+(?=":;)').firstMatch(adr)?.group(0) ?? '';
         }
       } catch (e) {
         _adr = '';
