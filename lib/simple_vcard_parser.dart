@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 class VCard {
-  late String _vCardString;
+  String vCardString;
   late List<String> lines;
   late String version;
 
-  VCard(vCardString) {
-    this._vCardString = vCardString;
-
-    lines = LineSplitter().convert(this._vCardString);
+  VCard(this.vCardString) {
+    lines = LineSplitter().convert(vCardString);
     for (var i = lines.length - 1; i >= 0; i--) {
       if (lines[i].startsWith("BEGIN:VCARD") ||
           lines[i].startsWith("END:VCARD") ||
@@ -26,12 +24,10 @@ class VCard {
       }
     }
 
-    version = getWordOfPrefix("VERSION:");
+    version = getWordOfPrefix("VERSION:") ?? "3.0";
   }
 
-  String get fullString {
-    return this._vCardString;
-  }
+  String get fullString => vCardString;
 
   void print_lines() {
     String s;
@@ -42,7 +38,7 @@ class VCard {
     }
   }
 
-  String getWordOfPrefix(String prefix) {
+  String? getWordOfPrefix(String prefix) {
     //returns a word of a particular prefix from the tokens minus the prefix [case insensitive]
     for (var i = 0; i < lines.length; i++) {
       if (lines[i].toUpperCase().startsWith(prefix.toUpperCase())) {
@@ -51,7 +47,7 @@ class VCard {
         return word;
       }
     }
-    return "";
+    return null;
   }
 
   List<String> getWordsOfPrefix(String prefix) {
@@ -68,68 +64,27 @@ class VCard {
     return result;
   }
 
-  String _strip(String baseString) {
+  String? _strip(String? baseString) {
+    if (baseString == null) {
+      return null;
+    }
     try {
-      return RegExp(r'(?<=:).+').firstMatch(baseString)?.group(0) ?? '';
+      return RegExp(r'(?<=:).+').firstMatch(baseString)?.group(0);
     } catch (e) {
-      return '';
+      return null;
     }
   }
 
-  List<String> get name {
-    String _name = getWordOfPrefix("N");
-    return _strip(_name).split(';');
-  }
-
-  String get formattedName {
-    String _fName = getWordOfPrefix("FN");
-    return _strip(_fName);
-  }
-
-  String get nickname {
-    String _nName = getWordOfPrefix("NICKNAME");
-    return _strip(_nName);
-  }
-
-  String get birthday {
-    String _bDay = getWordOfPrefix("BDAY");
-    return _strip(_bDay);
-  }
-
-  String get organisation {
-    String _org = getWordOfPrefix("ORG");
-    return _strip(_org);
-  }
-
-  String get title {
-    String _title = getWordOfPrefix("TITLE");
-    return _strip(_title);
-  }
-
-  String get position {
-    String _position = getWordOfPrefix("ROLE");
-    return _strip(_position);
-  }
-
-  String get categories {
-    String _categories = getWordOfPrefix("CATEGORIES");
-    return _strip(_categories);
-  }
-
-  String get gender {
-    String _gender = getWordOfPrefix('GENDER');
-    return _strip(_gender);
-  }
-
-  String get note {
-    String _note = getWordOfPrefix('NOTE');
-    return _strip(_note);
-  }
-
-  @Deprecated("typedTelephone should be used instead")
-  String get telephone {
-    return getWordOfPrefix("TEL:");
-  }
+  List<String>? get name => _strip(getWordOfPrefix("N"))?.split(";");
+  String? get formattedName => _strip(getWordOfPrefix("FN"));
+  String? get nickname => _strip(getWordOfPrefix("NICKNAME"));
+  String? get birthday => _strip(getWordOfPrefix("BDAY"));
+  String? get organisation => _strip(getWordOfPrefix("ORG"));
+  String? get title => _strip(getWordOfPrefix("TITLE"));
+  String? get position => _strip(getWordOfPrefix("ROLE"));
+  String? get categories => _strip(getWordOfPrefix("CATEGORIES"));
+  String? get gender => _strip(getWordOfPrefix('GENDER'));
+  String? get note => _strip(getWordOfPrefix('NOTE'));
 
   List<dynamic> get typedTelephone {
     List<String> telephoneTypes = [
@@ -179,12 +134,6 @@ class VCard {
     }
 
     return result;
-  }
-
-  @Deprecated("typedEmail should be used instead")
-  String get email {
-    String _email = getWordOfPrefix("EMAIL");
-    return _strip(_email);
   }
 
   List<dynamic> get typedEmail => _typedProperty('EMAIL');
