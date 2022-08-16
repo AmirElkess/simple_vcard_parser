@@ -4,4 +4,4 @@ description: A simple and easy to use parser to extract information from a stand
 repository: https://github.com/AmirElkess/simple_vcard_parser
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
