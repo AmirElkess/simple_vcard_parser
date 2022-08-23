@@ -27,3 +27,7 @@
 * Added birthday, note and nickname getters.
 * Added print_lines method.
 * Deprecated email getter.
+
+## [0.2.0] - 18-08-2022
+* Null Safety
+
