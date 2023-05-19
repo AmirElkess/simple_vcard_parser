@@ -1,6 +1,6 @@
 # simple_vcard_parser
 
-A simple and easy to use parser to extract information from a standard vCard string. Major vCard properties from versions 2.1, 3.0, 4.0 are supported.
+A simple and easy to use parser to extract information from a standard vCard string. Major vCard properties from versions 2.1, 3.0, 4.0 are supported. Supports null-safety.
 
 # Getting started
 
@@ -10,7 +10,7 @@ dependency:
 ```yaml
 dependencies:
   ...
-  simple_vcard_parser: ^0.1.6
+  simple_vcard_parser: ^0.2.0
 ```
 
 In your library add the following import:
